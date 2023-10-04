@@ -3,11 +3,13 @@ import TextInput from '../TextInput/TextInput'
 import Stat from '../Stat/Stat'
 import Skill from '../Skill/Skill'
 
+import '../../styles/components/CharacterSheet.scss'
+
 const CharacterSheet = () => {
     return (
-        <div className='character-sheet'>
+        <div className='container'>
             <h1>Character Sheet</h1>
-            <form>
+            <form className='character-sheet'>
                 <section id="name">
                     <TextInput label='Character Name' id='name' placeholder='Johnny Appleseed' />
                 </section>
@@ -42,6 +44,10 @@ const CharacterSheet = () => {
                     <Skill name={'manipulation'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
                     <Skill name={'insight'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
                     <Skill name={'power'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
+                </section>
+                <section id='import-export'>
+                    <button type='button' id='import-button' className='primary'>Import Character</button>
+                    <button type='button' id='export-button' className='secondary'>Export Character</button>
                 </section>
             </form>
         </div>

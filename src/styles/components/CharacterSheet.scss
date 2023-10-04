@@ -1,0 +1,47 @@
+@import '../variables';
+.container {
+    display: flex;
+    flex-direction: column;
+    .character-sheet {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr 1fr 2fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "name name name"
+            "base combat skills"
+            "import . . ";
+        grid-gap: 1rem;
+
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+        &#name {
+            grid-area: name;
+            align-items: flex-start;
+        }
+
+        &#base-attributes {
+            grid-area: base;
+        }
+
+        &#combat-attributes {
+            grid-area: combat;
+        }
+
+        &#skills {
+            grid-area: skills;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        &#import-export {
+            grid-area: import;
+            flex-direction: row;
+        }
+        }
+    }
+}

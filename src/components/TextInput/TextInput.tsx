@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import '../../styles/components/TextInput.scss'
 
 interface ITextInput {
     label: string;
@@ -8,7 +9,10 @@ interface ITextInput {
 
 const TextInput: FC<ITextInput> = ({ label, placeholder, id }) => {
     return (
-        <label htmlFor={id}>{label}<input type='text' id={id} name={id} placeholder={placeholder} /></label>
+        <div className='text-input'>
+            <input type='text' id={id} name={id} placeholder={placeholder} />
+            <label htmlFor={id}>{label}</label>
+        </div>
     )
 }
 
