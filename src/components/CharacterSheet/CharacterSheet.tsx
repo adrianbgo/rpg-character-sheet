@@ -1,49 +1,86 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInput from '../TextInput/TextInput'
 import Stat from '../Stat/Stat'
 import Skill from '../Skill/Skill'
 
 import '../../styles/components/CharacterSheet.scss'
+import { InitialAttributes, Attribute } from '../../types/Attribute'
 
 const CharacterSheet: React.FC = () => {
+    const [name, setName] = useState<string>('')
+    const [attributes, setAttributes] = useState<{ [key: string]: Attribute }>(InitialAttributes)
     return (
         <div className='container'>
             <h1>Character Sheet</h1>
             <form className='character-sheet'>
                 <section id="name">
-                    <TextInput label='Character Name' id='name' placeholder='Johnny Appleseed' />
+                    <TextInput label='Character Name' id='name' placeholder='Johnny Appleseed' onChange={setName} value={name} />
                 </section>
                 <section id="base-attributes">
                     <h2>Base Attributes</h2>
-                    <Stat type='strength' computed={false} />
-                    <Stat type='dexterity' computed={false} />
-                    <Stat type='mind' computed={false} />
-                    <Stat type='presence' computed={false} />
+                    {
+                        Object.keys(attributes).map((key: string) => {
+                            if (
+                                attributes[key].computed === false
+                            ) {
+                                return (
+                                    <Stat
+                                        id={key}
+                                        key={key}
+                                        type={key}
+                                        computed={attributes[key].computed}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            setAttributes({ ...attributes, [key]: { ...attributes[key], value: parseInt(e.target.value) } })
+                                        }}
+                                        value={attributes[key].value}
+                                    />
+                                )
+                            }
+                            return (
+                                <></>
+                            )
+                        })
+                    }
                 </section>
                 <section id="combat-attributes">
                     <h2>Combat Attributes</h2>
-                    <Stat type='vitality' computed={true} formula={() => 0} />
-                    <Stat type='evasion' computed={true} formula={() => 0} />
-                    <Stat type='armor' computed={true} formula={() => 0} />
-                    <Stat type='alacrity' computed={true} formula={() => 0} />
-                    <Stat type='tenacity' computed={true} formula={() => 0} />
-                    <Stat type='power' computed={true} formula={() => 0} />
+                    {
+                        Object.keys(attributes).map((key: string) => {
+                            if (
+                                attributes[key].computed === true && attributes[key].formula !== undefined
+                            ) {
+                                return (
+                                    <Stat
+                                        key={key}
+                                        type={key}
+                                        computed={attributes[key].computed}
+                                        value={attributes[key].value}
+                                        onChange={() => { }}
+                                        id={key}
+                                    />
+                                )
+                            }
+                            return (
+                                <></>
+                            )
+                        })
+                    }
                 </section>
                 <section id="skills">
                     <h2>Skills</h2>
-                    <Skill name={'fighting'} rank={0} baseAttribute={{ name: 'strength', value: 0, change: () => { } }} />
-                    <Skill name={'thievery'} rank={0} baseAttribute={{ name: 'dexterity', value: 0, change: () => { } }} />
-                    <Skill name={'stealth'} rank={0} baseAttribute={{ name: 'dexterity', value: 0, change: () => { } }} />
-                    <Skill name={'archery'} rank={0} baseAttribute={{ name: 'dexterity', value: 0, change: () => { } }} />
-                    <Skill name={'learned'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'survival'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'perception'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'apothecary'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'intimidation'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'performance'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'manipulation'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'insight'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'power'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
+                    <Skill name={'fighting'} rank={0} baseAttribute={attributes.strength} change={() => { }} />
+                    <Skill name={'thievery'} rank={0} baseAttribute={attributes.dexterity} change={() => { }} />
+                    <Skill name={'stealth'} rank={0} baseAttribute={attributes.dexterity} change={() => { }} />
+                    <Skill name={'archery'} rank={0} baseAttribute={attributes.dexterity} change={() => { }} />
+                    <Skill name={'learned'} rank={0} baseAttribute={attributes.mind} change={() => { }} />
+                    <Skill name={'survival'} rank={0} baseAttribute={attributes.mind} change={() => { }} />
+                    <Skill name={'perception'} rank={0} baseAttribute={attributes.mind} change={() => { }} />
+                    <Skill name={'apothecary'} rank={0} baseAttribute={attributes.mind} change={() => { }} />
+                    <Skill name={'intimidation'} rank={0} baseAttribute={attributes.presence} change={() => { }} />
+                    <Skill name={'performance'} rank={0} baseAttribute={attributes.presence} change={() => { }} />
+                    <Skill name={'manipulation'} rank={0} baseAttribute={attributes.presence} change={() => { }} />
+                    <Skill name={'insight'} rank={0} baseAttribute={attributes.presence} change={() => { }} />
+                    <Skill name={'power'} rank={0} baseAttribute={attributes.presence} change={() => { }} />
                 </section>
                 <section id='import-export'>
                     <button type='button' id='import-button' className='primary'>Import Character</button>
