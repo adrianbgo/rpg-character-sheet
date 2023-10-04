@@ -1,0 +1,30 @@
+@import '../variables';
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid $--theme-on-surface;
+    padding: 2rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 20%;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 2rem;
+    
+    label {
+        text-transform: capitalize;
+        font-weight: bold;
+    } 
+
+    input {
+        border: 2px solid $--theme-on-surface;
+        text-align: center;
+        width: 2rem;
+        height: 2rem;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button{
+            display: none;
+        }
+    }
+}
