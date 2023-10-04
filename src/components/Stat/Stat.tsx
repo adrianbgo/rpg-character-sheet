@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import '../../styles/components/Stat.scss'
 
 interface IStat {
@@ -7,7 +7,7 @@ interface IStat {
     formula?: () => number;
 }
 
-const Stat: FC<IStat> = ({ type, computed, formula }) => {
+const Stat: React.FC<IStat> = ({ type, computed, formula }) => {
     if (computed && formula) {
         return (
             <div className='stat'>

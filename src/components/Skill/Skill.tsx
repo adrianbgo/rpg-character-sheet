@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { Attribute } from '../../types/Attribute';
 import '../../styles/components/Skill.scss'
 
@@ -8,15 +8,15 @@ interface ISkill {
     name: string;
 }
 
-const Skill: FC<ISkill> = ({ rank, baseAttribute, name }) => {
+const Skill: React.FC<ISkill> = ({ rank, baseAttribute, name }) => {
     return (
         <div className='skill'>
             <p className='skill-name'><b>{name}</b>:</p>
-            <p>{rank}/<b>{baseAttribute.value}</b></p>
-            <b>({baseAttribute.name})</b>
+            <p className='skill-rank'>{rank}/<b className='skill-max-rank'>{baseAttribute.value}</b></p>
+            <b className='skill-base-attribute'>({baseAttribute.name})</b>
             <button className='skill-button' onClick={baseAttribute.change}>train</button>
         </div>
     )
 }
 
-export default Skill
+export default Skill    

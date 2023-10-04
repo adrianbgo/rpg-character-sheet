@@ -5,7 +5,7 @@ import Skill from '../Skill/Skill'
 
 import '../../styles/components/CharacterSheet.scss'
 
-const CharacterSheet = () => {
+const CharacterSheet: React.FC = () => {
     return (
         <div className='container'>
             <h1>Character Sheet</h1>
