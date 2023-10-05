@@ -3,6 +3,7 @@ export interface Attribute {
   value: number;
   computed: boolean;
   dependents?: string[];
+  formula?: (dependentValues: number[]) => number;
 }
 
 export const InitialAttributes = {
@@ -10,7 +11,6 @@ export const InitialAttributes = {
     name: "strength",
     value: 0,
     computed: false,
-    dependents: ["vitality"],
   },
   dexterity: {
     name: "dexterity",
@@ -27,46 +27,46 @@ export const InitialAttributes = {
     value: 0,
     computed: false,
   },
-  get vitality() {
-    return {
-      name: "vitality",
-      value: this.strength.value + 3,
-      computed: true,
-    };
+  vitality: {
+    name: "vitality",
+    value: 0,
+    computed: true,
+    dependents: ["strength"],
+    formula: ([strength]: number[]) => strength + 3,
   },
-  get evasion() {
-    return {
-      name: "evasion",
-      value: this.dexterity.value + 10,
-      computed: true,
-    };
+  evasion: {
+    name: "evasion",
+    value: 0,
+    computed: true,
+    dependents: ["dexterity"],
+    formula: ([dexterity]: number[]) => dexterity + 10,
   },
-  get armor() {
-    return {
-      name: "armor",
-      value: this.evasion.value,
-      computed: true,
-    };
+  armor: {
+    name: "armor",
+    value: 0,
+    computed: true,
+    dependents: ["evasion"],
+    formula: ([evasion]: number[]) => evasion,
   },
-  get alacrity() {
-    return {
-      name: "alacrity",
-      value: this.mind.value + this.dexterity.value,
-      computed: true,
-    };
+  alacrity: {
+    name: "alacrity",
+    value: 0,
+    computed: true,
+    dependents: ["mind", "dexterity"],
+    formula: ([mind, dexterity]: number[]) => mind + dexterity,
   },
-  get tenacity() {
-    return {
-      name: "tenacity",
-      value: this.presence.value + 1,
-      computed: true,
-    };
+  tenacity: {
+    name: "tenacity",
+    value: 0,
+    computed: true,
+    dependents: ["presence"],
+    formula: ([presence]: number[]) => presence + 1,
   },
-  get power() {
-    return {
-      name: "power",
-      value: 0,
-      computed: true,
-    };
+  power: {
+    name: "power",
+    value: 0,
+    computed: true,
+    dependents: [],
+    formula: () => 0,
   },
 };
