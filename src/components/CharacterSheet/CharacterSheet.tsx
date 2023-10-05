@@ -6,8 +6,10 @@ import Skill from "../Skill/Skill";
 import "../../styles/components/CharacterSheet.scss";
 import { changeDerived } from "../../util/changeDerived";
 import { Character, InitialCharacter } from "../../types/Character";
-import Equippables from "../Equippables/Equippables";
 import { ArmorTypes } from "../../types/Armor";
+import ArmorComponent from "../ArmorComponent/ArmorComponent";
+import WeaponComponent from "../WeaponComponent/WeaponComponent";
+import { WeaponTypes } from "../../types/Weapon";
 
 const CharacterSheet: React.FC = () => {
     const [character, setCharacter] = useState<Character>(InitialCharacter);
@@ -55,23 +57,60 @@ const CharacterSheet: React.FC = () => {
                     })}
                 </section>
                 <section id='equippables'>
-                    <h2>Equippables</h2>
-                    <Equippables onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        setCharacter({
-                            ...character,
-                            attributes: {
-                                ...character.attributes,
-                                armorBonus: {
-                                    ...character.attributes.armorBonus,
-                                    value: ArmorTypes[e.target.value].bonus
-                                },
-                                armorReduction: {
-                                    ...character.attributes.armorReduction,
-                                    value: ArmorTypes[e.target.value].limit
-                                }
-                            }
-                        })
-                    }} />
+                    <h2>Armor</h2>
+                    {Object.keys(character.armorSlots).map((key: string) => {
+                        return (
+                            <ArmorComponent onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                setCharacter({
+                                    ...character,
+                                    attributes: {
+                                        ...character.attributes,
+                                        armorBonus: {
+                                            ...character.attributes.armorBonus,
+                                            value: ArmorTypes[e.target.value].bonus
+                                        },
+                                        armorReduction: {
+                                            ...character.attributes.armorReduction,
+                                            value: ArmorTypes[e.target.value].limit
+                                        }
+                                    },
+                                    armorSlots: {
+                                        ...character.armorSlots,
+                                        [key]: {
+                                            bonus: ArmorTypes[e.target.value].bonus,
+                                            limit: ArmorTypes[e.target.value].limit,
+                                            slot: ArmorTypes[e.target.value].slot
+                                        }
+                                    }
+                                })
+                            }} label={key} />
+                        )
+                    })}
+                    <h2>Weapon</h2>
+                    {Object.keys(character.weaponSlots).map((key: string) => {
+                        return (
+                            <WeaponComponent onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                setCharacter({
+                                    ...character,
+                                    attributes: {
+                                        ...character.attributes,
+                                        armorBonus: {
+                                            ...character.attributes.armorBonus,
+                                            value: ArmorTypes[e.target.value].bonus
+                                        },
+                                        armorReduction: {
+                                            ...character.attributes.armorReduction,
+                                            value: ArmorTypes[e.target.value].limit
+                                        }
+                                    },
+                                    weaponSlots: {
+                                        ...character.weaponSlots,
+                                        [key]: WeaponTypes[e.target.value]
+                                    }
+                                })
+                            }} label={key} />
+                        )
+                    })}
                 </section>
                 <section id="combat-attributes">
                     <h2>Combat Attributes</h2>
