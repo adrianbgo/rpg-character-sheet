@@ -49,7 +49,7 @@ const CharacterSheet: React.FC = () => {
                                 />
                             );
                         }
-                        return <></>;
+                        return <React.Fragment key={key}></React.Fragment>;
                     })}
                 </section>
                 <section id="combat-attributes">
@@ -67,7 +67,7 @@ const CharacterSheet: React.FC = () => {
                                 />
                             );
                         }
-                        return <></>;
+                        return <React.Fragment key={key}></React.Fragment>;
                     })}
                 </section>
                 <section id="skills">
