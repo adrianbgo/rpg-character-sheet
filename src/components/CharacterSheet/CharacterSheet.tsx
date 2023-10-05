@@ -6,12 +6,14 @@ import Skill from "../Skill/Skill";
 import "../../styles/components/CharacterSheet.scss";
 import { InitialAttributes, Attribute } from "../../types/Attribute";
 import { changeDerived } from "../../util/changeDerived";
+import { InitialSkills, SkillType } from "../../types/Skill";
 
 const CharacterSheet: React.FC = () => {
     const [name, setName] = useState<string>("");
     const [attributes, setAttributes] = useState<{ [key: string]: Attribute }>(
         InitialAttributes
     );
+    const [skills, setSkills] = useState<{ [key: string]: SkillType }>(InitialSkills);
 
     changeDerived(attributes);
     return (
@@ -73,84 +75,16 @@ const CharacterSheet: React.FC = () => {
                 </section>
                 <section id="skills">
                     <h2>Skills</h2>
-                    <Skill
-                        name={"fighting"}
-                        rank={0}
-                        baseAttribute={attributes.strength}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"thievery"}
-                        rank={0}
-                        baseAttribute={attributes.dexterity}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"stealth"}
-                        rank={0}
-                        baseAttribute={attributes.dexterity}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"archery"}
-                        rank={0}
-                        baseAttribute={attributes.dexterity}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"learned"}
-                        rank={0}
-                        baseAttribute={attributes.mind}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"survival"}
-                        rank={0}
-                        baseAttribute={attributes.mind}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"perception"}
-                        rank={0}
-                        baseAttribute={attributes.mind}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"apothecary"}
-                        rank={0}
-                        baseAttribute={attributes.mind}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"intimidation"}
-                        rank={0}
-                        baseAttribute={attributes.presence}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"performance"}
-                        rank={0}
-                        baseAttribute={attributes.presence}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"manipulation"}
-                        rank={0}
-                        baseAttribute={attributes.presence}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"insight"}
-                        rank={0}
-                        baseAttribute={attributes.presence}
-                        change={() => { }}
-                    />
-                    <Skill
-                        name={"power"}
-                        rank={0}
-                        baseAttribute={attributes.presence}
-                        change={() => { }}
-                    />
+                    {Object.keys(skills).map((key: string) => {
+                        return (
+                            <Skill
+                                key={key}
+                                name={key}
+                                attributes={attributes}
+                                skill={skills[key]}
+                            />
+                        );
+                    })}
                 </section>
                 <section id="import-export">
                     <button type="button" id="import-button" className="primary">

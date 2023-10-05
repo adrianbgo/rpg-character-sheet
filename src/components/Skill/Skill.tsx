@@ -1,25 +1,21 @@
 import React from 'react'
-import { Attribute } from '../../types/Attribute';
 import '../../styles/components/Skill.scss'
-import { SkillRank } from '../../types/SkillRank';
+import { SkillType, SkillRank } from '../../types/Skill';
+import { Attribute } from '../../types/Attribute';
 
 interface ISkill {
-    rank: 0 | 1 | 2 | 3 | 4 | 5;
-    baseAttribute: Attribute;
     name: string;
-    change: () => void;
+    skill: SkillType;
+    attributes: { [key: string]: Attribute };
 }
 
-const Skill: React.FC<ISkill> = ({ rank, baseAttribute, name, change }) => {
-    return (
-        <div className='skill'>
-            <p className='skill-name'><b>{name}</b>:</p>
-            <p className='skill-rank'>{rank}/<b className='skill-max-rank'>{baseAttribute.value}</b></p>
-            <b className='skill-base-attribute'>({baseAttribute.name})</b>
-            <p className='skill-status'>{SkillRank[rank]}</p>
-            <button className='skill-button' onClick={change}>train</button>
-        </div>
-    )
-}
+const Skill: React.FC<ISkill> = ({ name, skill, attributes }) => (
+    <div className='skill'>
+        <p className='skill-name'><b>{name}</b>:</p>
+        <p className='skill-rank'>{Math.min(skill.rank, attributes[skill.baseAttribute].value)}/<b className='skill-max-rank'>{Math.min(attributes[skill.baseAttribute].value, 5)}</b> <em>({SkillRank[skill.rank]})</em></p>
+        <b className='skill-base-attribute'>({skill.baseAttribute})</b>
+        <button className='skill-button' onClick={skill.change}>train</button>
+    </div>
+)
 
 export default Skill    

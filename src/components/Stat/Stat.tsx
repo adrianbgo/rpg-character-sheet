@@ -15,14 +15,14 @@ const Stat: React.FC<IStat> = ({ type, computed, formula, onChange, value, id })
         return (
             <div className='stat'>
                 <label htmlFor={type}>{type}</label>
-                <input type='number' id={id} name={type} value={formula()} readOnly={computed} />
+                <input type='number' id={id} name={type} value={formula()} readOnly={computed} min={0} />
             </div>
         )
     }
     return (
         <div className='stat'>
             <label htmlFor={type}>{type}</label>
-            <input type='number' id={id} name={type} readOnly={computed} onChange={(e) => onChange(e)} value={value} />
+            <input type='number' id={id} name={type} readOnly={computed} onChange={(e) => onChange(e)} value={value} min={0} />
         </div>
     )
 }
