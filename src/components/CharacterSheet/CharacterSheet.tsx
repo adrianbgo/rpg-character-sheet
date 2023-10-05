@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TextInput from "../TextInput/TextInput";
 import Stat from "../Stat/Stat";
 import Skill from "../Skill/Skill";

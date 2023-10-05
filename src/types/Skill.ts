@@ -1,6 +1,3 @@
-import { Attribute } from "./Attribute";
-import { InitialAttributes } from "./Attribute";
-
 export const SkillRank = {
     0: "untrained",
     1: "novice",
