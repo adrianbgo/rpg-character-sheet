@@ -1,6 +1,7 @@
 import { Attribute } from "../types/Attribute";
+import { Skill } from "../types/Skill";
 
-export const changeDerived = (attributeList: { [key: string]: Attribute }) => {
+export const changeDerived = (attributeList: { [key: string]: Attribute }, skillList: { [key: string]: Skill }) => {
     const attributeNames = Object.keys(attributeList);
     const derivedAttributes = attributeNames.filter((attributeName) => attributeList[attributeName].computed);
     derivedAttributes.forEach((attributeName) => {
@@ -11,5 +12,12 @@ export const changeDerived = (attributeList: { [key: string]: Attribute }) => {
             attribute.value = formula(dependentValues);
         }
     });
-    return attributeList;
+    const skillNames = Object.keys(skillList);
+    skillNames.forEach((skillName) => {
+        const skill = skillList[skillName];
+        const { baseAttribute, rank } = skill;
+        if (baseAttribute) {
+            skill.rank = Math.min(rank, attributeList[baseAttribute].value) as 0 | 1 | 2 | 3 | 4 | 5;
+        }
+    })
 }

@@ -9,7 +9,7 @@ import { Character, InitialCharacter } from "../../types/Character";
 
 const CharacterSheet: React.FC = () => {
     const [character, setCharacter] = useState<Character>(InitialCharacter);
-    changeDerived(character.attributes);
+    changeDerived(character.attributes, character.skills);
     return (
         <div className="container">
             <h1>Character Sheet</h1>
@@ -79,6 +79,18 @@ const CharacterSheet: React.FC = () => {
                                 name={key}
                                 attributes={character.attributes}
                                 skill={character.skills[key]}
+                                change={(newRank: 0 | 1 | 2 | 3 | 4 | 5) => {
+                                    setCharacter({
+                                        ...character,
+                                        skills: {
+                                            ...character.skills,
+                                            [key]: {
+                                                ...character.skills[key],
+                                                rank: newRank
+                                            }
+                                        }
+                                    })
+                                }}
                             />
                         );
                     })}

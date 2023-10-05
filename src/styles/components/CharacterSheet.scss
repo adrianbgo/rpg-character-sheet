@@ -43,6 +43,8 @@
             &#import-export {
                 grid-area: import;
                 flex-direction: row;
+                display: flex;
+                gap: 1rem;
 
                 input[type="file"] {
                     display: none;

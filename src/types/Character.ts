@@ -1,10 +1,10 @@
 import { Attribute, InitialAttributes } from "./Attribute";
-import { InitialSkills, SkillType } from "./Skill";
+import { InitialSkills, Skill } from "./Skill";
 
 export interface Character {
     name: string;
     attributes: { [key: string]: Attribute };
-    skills: { [key: string]: SkillType };
+    skills: { [key: string]: Skill };
 }
 
 export const InitialCharacter: Character = {
