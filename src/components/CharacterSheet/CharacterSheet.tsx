@@ -151,6 +151,18 @@ const CharacterSheet: React.FC = () => {
                                         }
                                     })
                                 }}
+                                changeRoll={(newRoll: number) => {
+                                    setCharacter({
+                                        ...character,
+                                        skills: {
+                                            ...character.skills,
+                                            [key]: {
+                                                ...character.skills[key],
+                                                rollValue: newRoll
+                                            }
+                                        }
+                                    })
+                                }}
                             />
                         );
                     })}
