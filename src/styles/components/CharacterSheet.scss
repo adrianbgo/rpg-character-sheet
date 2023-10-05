@@ -1,7 +1,9 @@
 @import '../variables';
+
 .container {
     display: flex;
     flex-direction: column;
+
     .character-sheet {
         display: grid;
         width: 100%;
@@ -19,29 +21,35 @@
             justify-content: flex-start;
             align-items: center;
 
-        &#name {
-            grid-area: name;
-            align-items: flex-start;
-        }
+            &#name {
+                grid-area: name;
+                align-items: flex-start;
+            }
 
-        &#base-attributes {
-            grid-area: base;
-        }
+            &#base-attributes {
+                grid-area: base;
+            }
 
-        &#combat-attributes {
-            grid-area: combat;
-        }
+            &#combat-attributes {
+                grid-area: combat;
+            }
 
-        &#skills {
-            grid-area: skills;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
+            &#skills {
+                grid-area: skills;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
 
-        &#import-export {
-            grid-area: import;
-            flex-direction: row;
-        }
+            &#import-export {
+                grid-area: import;
+                flex-direction: row;
+                display: flex;
+                gap: 1rem;
+
+                input[type="file"] {
+                    display: none;
+                }
+            }
         }
     }
 }

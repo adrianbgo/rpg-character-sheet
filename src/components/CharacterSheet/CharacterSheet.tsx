@@ -1,57 +1,127 @@
-import React from 'react'
-import TextInput from '../TextInput/TextInput'
-import Stat from '../Stat/Stat'
-import Skill from '../Skill/Skill'
+import React, { useState } from "react";
+import TextInput from "../TextInput/TextInput";
+import Stat from "../Stat/Stat";
+import Skill from "../Skill/Skill";
 
-import '../../styles/components/CharacterSheet.scss'
+import "../../styles/components/CharacterSheet.scss";
+import { changeDerived } from "../../util/changeDerived";
+import { Character, InitialCharacter } from "../../types/Character";
 
 const CharacterSheet: React.FC = () => {
+    const [character, setCharacter] = useState<Character>(InitialCharacter);
+    changeDerived(character.attributes, character.skills);
     return (
-        <div className='container'>
+        <div className="container">
             <h1>Character Sheet</h1>
-            <form className='character-sheet'>
+            <form className="character-sheet">
                 <section id="name">
-                    <TextInput label='Character Name' id='name' placeholder='Johnny Appleseed' />
+                    <TextInput
+                        label="Character Name"
+                        id="name"
+                        placeholder="Johnny Appleseed"
+                        onChange={(val) => setCharacter({ ...character, name: val })}
+                        value={character.name}
+                    />
                 </section>
                 <section id="base-attributes">
                     <h2>Base Attributes</h2>
-                    <Stat type='strength' computed={false} />
-                    <Stat type='dexterity' computed={false} />
-                    <Stat type='mind' computed={false} />
-                    <Stat type='presence' computed={false} />
+                    {Object.keys(character.attributes).map((key: string) => {
+                        if (character.attributes[key].computed === false) {
+                            return (
+                                <Stat
+                                    id={key}
+                                    key={key}
+                                    type={key}
+                                    computed={character.attributes[key].computed}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        setCharacter({
+                                            ...character,
+                                            attributes: {
+                                                ...character.attributes,
+                                                [key]: {
+                                                    ...character.attributes[key],
+                                                    value: e.target.valueAsNumber,
+                                                }
+                                            }
+                                        })
+                                    }}
+                                    value={character.attributes[key].value}
+                                />
+                            );
+                        }
+                        return <React.Fragment key={key}></React.Fragment>;
+                    })}
                 </section>
                 <section id="combat-attributes">
                     <h2>Combat Attributes</h2>
-                    <Stat type='vitality' computed={true} formula={() => 0} />
-                    <Stat type='evasion' computed={true} formula={() => 0} />
-                    <Stat type='armor' computed={true} formula={() => 0} />
-                    <Stat type='alacrity' computed={true} formula={() => 0} />
-                    <Stat type='tenacity' computed={true} formula={() => 0} />
-                    <Stat type='power' computed={true} formula={() => 0} />
+                    {Object.keys(character.attributes).map((key: string) => {
+                        if (character.attributes[key].computed === true) {
+                            return (
+                                <Stat
+                                    key={key}
+                                    type={key}
+                                    computed={character.attributes[key].computed}
+                                    value={character.attributes[key].value}
+                                    onChange={() => { }}
+                                    id={key}
+                                />
+                            );
+                        }
+                        return <React.Fragment key={key}></React.Fragment>;
+                    })}
                 </section>
                 <section id="skills">
                     <h2>Skills</h2>
-                    <Skill name={'fighting'} rank={0} baseAttribute={{ name: 'strength', value: 0, change: () => { } }} />
-                    <Skill name={'thievery'} rank={0} baseAttribute={{ name: 'dexterity', value: 0, change: () => { } }} />
-                    <Skill name={'stealth'} rank={0} baseAttribute={{ name: 'dexterity', value: 0, change: () => { } }} />
-                    <Skill name={'archery'} rank={0} baseAttribute={{ name: 'dexterity', value: 0, change: () => { } }} />
-                    <Skill name={'learned'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'survival'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'perception'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'apothecary'} rank={0} baseAttribute={{ name: 'mind', value: 0, change: () => { } }} />
-                    <Skill name={'intimidation'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'performance'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'manipulation'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'insight'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
-                    <Skill name={'power'} rank={0} baseAttribute={{ name: 'presence', value: 0, change: () => { } }} />
+                    {Object.keys(character.skills).map((key: string) => {
+                        return (
+                            <Skill
+                                key={key}
+                                name={key}
+                                attributes={character.attributes}
+                                skill={character.skills[key]}
+                                change={(newRank: 0 | 1 | 2 | 3 | 4 | 5) => {
+                                    setCharacter({
+                                        ...character,
+                                        skills: {
+                                            ...character.skills,
+                                            [key]: {
+                                                ...character.skills[key],
+                                                rank: newRank
+                                            }
+                                        }
+                                    })
+                                }}
+                            />
+                        );
+                    })}
                 </section>
-                <section id='import-export'>
-                    <button type='button' id='import-button' className='primary'>Import Character</button>
-                    <button type='button' id='export-button' className='secondary'>Export Character</button>
+                <section id="import-export">
+                    <label className='button primary'>
+                        Import Character
+                        <input type="file" onChange={
+                            (e) => {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    if (e.target) {
+                                        const result = JSON.parse(e.target.result as string);
+                                        setCharacter({
+                                            name: result.name,
+                                            attributes: result.attributes,
+                                            skills: result.skills
+                                        })
+                                    }
+                                };
+                                if (e.target.files) {
+                                    reader.readAsText(e.target.files[0]);
+                                }
+                            }
+                        } accept=".json" />
+                    </label>
+                    <a className='button secondary' href={"data:text/json;chaset=utf-8," + JSON.stringify(character)} download="character.json">Export Character</a>
                 </section>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default CharacterSheet
+export default CharacterSheet;
