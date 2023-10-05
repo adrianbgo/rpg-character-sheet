@@ -12,6 +12,7 @@
         grid-template-areas:
             "name name name"
             "base combat skills"
+            "equippables combat skills"
             "import . . ";
         grid-gap: 1rem;
 
@@ -49,6 +50,14 @@
                 input[type="file"] {
                     display: none;
                 }
+            }
+
+            &#equippables {
+                grid-area: equippables;
+                flex-direction: column;
+                display: flex;
+                gap: 1rem;
+                justify-content: flex-start;
             }
         }
     }
