@@ -124,12 +124,8 @@ const CharacterSheet: React.FC = () => {
                                 const reader = new FileReader();
                                 reader.onload = (e) => {
                                     if (e.target) {
-                                        const result = JSON.parse(e.target.result as string);
-                                        setCharacter({
-                                            name: result.name,
-                                            attributes: result.attributes,
-                                            skills: result.skills
-                                        })
+                                        const result: Character = JSON.parse(e.target.result as string);
+                                        setCharacter(result)
                                     }
                                 };
                                 if (e.target.files) {

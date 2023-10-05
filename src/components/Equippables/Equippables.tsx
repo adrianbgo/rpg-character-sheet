@@ -1,8 +1,5 @@
 import React from 'react'
 import { ArmorTypes } from '../../types/Armor'
-import { equipArmor } from '../../util/equipArmor'
-import { Attribute } from '../../types/Attribute'
-import { Skill } from '../../types/Skill'
 
 interface EquippablesProps {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void

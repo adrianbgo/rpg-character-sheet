@@ -32,10 +32,10 @@ export const ArmorTypes: { [key: string]: Armor } = {
     }
 }
 
-
-
-
-
 export interface ArmorSlots {
     chest: Armor;
+}
+
+export const InitialArmorSlots = {
+    chest: ArmorTypes.none
 }
