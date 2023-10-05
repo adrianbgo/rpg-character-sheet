@@ -1,4 +1,4 @@
-import { Weapon, WeaponTypes } from "../../types/Weapon"
+import { WeaponTypes } from "../../types/Weapon"
 
 interface WeaponProps {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
