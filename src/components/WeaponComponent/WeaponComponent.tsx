@@ -1,4 +1,5 @@
 import { WeaponTypes } from "../../types/Weapon"
+import '../../styles/components/Dropdowns.scss'
 
 interface WeaponProps {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void

@@ -29,6 +29,7 @@
     white-space: nowrap;
     word-wrap: break-word;
     text-decoration: none;
+    text-transform: capitalize;
 
     &:hover {
         background-color: $--theme-surface;
