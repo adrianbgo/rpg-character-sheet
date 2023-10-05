@@ -14,7 +14,6 @@ const CharacterSheet: React.FC = () => {
         InitialAttributes
     );
     const [skills, setSkills] = useState<{ [key: string]: SkillType }>(InitialSkills);
-
     changeDerived(attributes);
     return (
         <div className="container">
@@ -87,12 +86,26 @@ const CharacterSheet: React.FC = () => {
                     })}
                 </section>
                 <section id="import-export">
-                    <button type="button" id="import-button" className="primary">
+                    <label className='button primary'>
                         Import Character
-                    </button>
-                    <button type="button" id="export-button" className="secondary">
-                        Export Character
-                    </button>
+                        <input type="file" onChange={
+                            (e) => {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    if (e.target) {
+                                        const result = JSON.parse(e.target.result as string);
+                                        setName(result.name);
+                                        setAttributes(result.attributes);
+                                        setSkills(result.skills);
+                                    }
+                                };
+                                if (e.target.files) {
+                                    reader.readAsText(e.target.files[0]);
+                                }
+                            }
+                        } accept=".json" />
+                    </label>
+                    <a className='button secondary' href={"data:text/json;chaset=utf-8," + JSON.stringify({ name, attributes, skills })} download="character.json">Export Character</a>
                 </section>
             </form>
         </div>
