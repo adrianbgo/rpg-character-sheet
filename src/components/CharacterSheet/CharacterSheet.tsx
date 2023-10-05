@@ -6,6 +6,8 @@ import Skill from "../Skill/Skill";
 import "../../styles/components/CharacterSheet.scss";
 import { changeDerived } from "../../util/changeDerived";
 import { Character, InitialCharacter } from "../../types/Character";
+import Equippables from "../Equippables/Equippables";
+import { ArmorTypes } from "../../types/Armor";
 
 const CharacterSheet: React.FC = () => {
     const [character, setCharacter] = useState<Character>(InitialCharacter);
@@ -26,7 +28,7 @@ const CharacterSheet: React.FC = () => {
                 <section id="base-attributes">
                     <h2>Base Attributes</h2>
                     {Object.keys(character.attributes).map((key: string) => {
-                        if (character.attributes[key].computed === false) {
+                        if (!character.attributes[key].computed && !character.attributes[key].static) {
                             return (
                                 <Stat
                                     id={key}
@@ -52,10 +54,29 @@ const CharacterSheet: React.FC = () => {
                         return <React.Fragment key={key}></React.Fragment>;
                     })}
                 </section>
+                <section id='equippables'>
+                    <h2>Equippables</h2>
+                    <Equippables onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        setCharacter({
+                            ...character,
+                            attributes: {
+                                ...character.attributes,
+                                armorBonus: {
+                                    ...character.attributes.armorBonus,
+                                    value: ArmorTypes[e.target.value].bonus
+                                },
+                                armorReduction: {
+                                    ...character.attributes.armorReduction,
+                                    value: ArmorTypes[e.target.value].limit
+                                }
+                            }
+                        })
+                    }} />
+                </section>
                 <section id="combat-attributes">
                     <h2>Combat Attributes</h2>
                     {Object.keys(character.attributes).map((key: string) => {
-                        if (character.attributes[key].computed === true) {
+                        if (character.attributes[key].computed && !character.attributes[key].static) {
                             return (
                                 <Stat
                                     key={key}

@@ -4,6 +4,7 @@ export interface Attribute {
   computed: boolean;
   dependents?: string[];
   formula?: (dependentValues: number[]) => number;
+  static?: boolean;
 }
 
 export const InitialAttributes = {
@@ -38,15 +39,15 @@ export const InitialAttributes = {
     name: "evasion",
     value: 0,
     computed: true,
-    dependents: ["dexterity"],
-    formula: ([dexterity]: number[]) => dexterity + 10,
+    dependents: ["dexterity", "armorReduction"],
+    formula: ([dexterity, armorReduction]: number[]) => dexterity + 10 - armorReduction,
   },
   armor: {
     name: "armor",
     value: 0,
     computed: true,
-    dependents: ["evasion"],
-    formula: ([evasion]: number[]) => evasion,
+    dependents: ["evasion", "armorBonus"],
+    formula: ([evasion, armorBonus]: number[]) => evasion + armorBonus,
   },
   alacrity: {
     name: "alacrity",
@@ -69,4 +70,18 @@ export const InitialAttributes = {
     dependents: [],
     formula: () => 0,
   },
+  armorBonus: {
+    name: "armorBonus",
+    value: 0,
+    computed: false,
+    dependents: [],
+    static: true,
+  },
+  armorReduction: {
+    name: "armorReduction",
+    value: 0,
+    computed: false,
+    dependents: [],
+    static: true,
+  }
 };
