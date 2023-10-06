@@ -1,40 +1,39 @@
 import React from 'react';
 import '../../styles/components/Stat.scss'
 import DamageCounter from '../DamageCounter/DamageCounter';
+import { Attribute } from '../../types/Attribute';
 
 interface IStat {
     type: string;
-    computed: boolean;
+    // computed: boolean;
     formula?: () => number;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    value: number;
+    // value: number;
     id: string;
-    damage?: number | boolean;
+    // damage?: number | boolean;
     takeDamage?: (newDamage: number) => void;
-    incrementable?: boolean;
-    changeValue: (newValue: number) => void;
-    usage: number;
+    // incrementable?: boolean;
+    incrementValue?: (newValue: number) => void;
+    stat: Attribute;
 }
 
-const Stat: React.FC<IStat> = ({ type, computed, formula, onChange, value, id, damage, takeDamage, incrementable, changeValue, usage }) => {
+const Stat: React.FC<IStat> = ({ type, stat, incrementValue, formula, takeDamage, id }) => {
+    const { computed, value, damage, incrementable, usage } = stat;
     const handleIncrement = (e: React.MouseEvent<HTMLButtonElement>, amount: number) => {
         e.preventDefault();
-        const newValue = usage + amount;
-        changeValue!(newValue);
+        const newUsage = usage - amount;
+        incrementValue!(newUsage);
     }
     if (computed && formula) {
         return (
-            <div className={`stat ${incrementable ?? 'incrementable'}`}>
+            <div className='stat'>
                 <label htmlFor={type}>{type}</label>
-                {
-                    incrementable ?
-                        <div className='increment'>
-                            <button onClick={(e) => handleIncrement(e, 1)} className='button'>-</button>
-                            <input type='number' id={id} name={type} defaultValue={5} min={0} />
-                            <button onClick={(e) => handleIncrement(e, -1)} className='button'>+</button>
-                        </div>
-                        :
-                        <input type='number' id={id} name={type} readOnly={computed} onChange={(e) => onChange(e)} value={formula()} min={0} />
+                {incrementable ?
+                    <div className='increment'>
+                        <button onClick={(e) => handleIncrement(e, -1)} className='button'>-</button>
+                        <input type='number' id={id} name={type} value={formula()} readOnly={computed} min={0} />
+                        <button onClick={(e) => handleIncrement(e, 1)} className='button'>+</button>
+                    </div> :
+                    <input type='number' id={id} name={type} value={formula()} readOnly={computed} min={0} />
                 }
                 {typeof damage === 'number' && takeDamage ? <DamageCounter damage={damage} change={takeDamage} /> : null}
             </div>
@@ -43,15 +42,13 @@ const Stat: React.FC<IStat> = ({ type, computed, formula, onChange, value, id, d
     return (
         <div className='stat'>
             <label htmlFor={type}>{type}</label>
-            {
-                incrementable ?
-                    <div className='increment'>
-                        <button onClick={(e) => handleIncrement(e, 1)} className='button'>-</button>
-                        <input type='number' id={id} name={type} value={value} min={0} />
-                        <button onClick={(e) => handleIncrement(e, -1)} className='button'>+</button>
-                    </div>
-                    :
-                    <input type='number' id={id} name={type} readOnly={computed} onChange={(e) => onChange(e)} value={value} min={0} />
+            {incrementable ?
+                <div className='increment'>
+                    <button onClick={(e) => handleIncrement(e, -1)} className='button'>-</button>
+                    <input type='number' id={id} name={type} value={value} readOnly={computed} min={0} />
+                    <button onClick={(e) => handleIncrement(e, 1)} className='button'>+</button>
+                </div> :
+                <input type='number' id={id} name={type} value={value} readOnly={computed} min={0} />
             }
             {typeof damage === 'number' && takeDamage ? <DamageCounter damage={damage} change={takeDamage} /> : null}
         </div>
