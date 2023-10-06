@@ -15,9 +15,6 @@ export const AttributeList: Array<IBaseAttribute> = [
         name: "presence",
         computed: false
     },
-    {
-
-    }
 ]
 
 export interface IBaseAttribute {

@@ -1,0 +1,15 @@
+.damage-counter {
+    display: flex;
+    flex-direction: row;
+    height: 1rem;
+    margin-top: 1rem;
+    margin-bottom: -1rem;
+    justify-content: space-between;
+    width: 5rem;
+    align-items: center;
+
+    .button {
+        font-size: x-small;
+        margin-left: 1rem;
+    }
+}

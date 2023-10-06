@@ -49,7 +49,24 @@ const CharacterSheet: React.FC = () => {
                                             }
                                         })
                                     }}
+                                    damage={character.attributes[key].damage !== undefined ? character.attributes[key].damage : false}
                                     value={character.attributes[key].value}
+                                    incrementable={character.attributes[key].incrementable}
+                                    changeValue={(newUsage) => {
+                                        setCharacter({
+                                            ...character,
+                                            attributes: {
+                                                ...character.attributes,
+                                                [key]: {
+                                                    ...character.attributes[key],
+                                                    usage: newUsage,
+                                                }
+                                            }
+                                        }
+                                        )
+                                        console.log(character.attributes[key].usage)
+                                    }}
+                                    usage={typeof character.attributes[key].usage === 'number' ? character.attributes[key].usage : 0}
                                 />
                             );
                         }
@@ -124,6 +141,36 @@ const CharacterSheet: React.FC = () => {
                                     value={character.attributes[key].value}
                                     onChange={() => { }}
                                     id={key}
+                                    damage={character.attributes[key].damage !== undefined ? character.attributes[key].damage : false}
+                                    takeDamage={(newDamage: number) => {
+                                        setCharacter({
+                                            ...character,
+                                            attributes: {
+                                                ...character.attributes,
+                                                [key]: {
+                                                    ...character.attributes[key],
+                                                    damage: newDamage
+                                                }
+                                            },
+                                            damage: newDamage
+                                        })
+                                    }}
+                                    incrementable={character.attributes[key].incrementable}
+                                    changeValue={(newUsage) => {
+                                        setCharacter({
+                                            ...character,
+                                            attributes: {
+                                                ...character.attributes,
+                                                [key]: {
+                                                    ...character.attributes[key],
+                                                    usage: newUsage,
+                                                }
+                                            }
+                                        }
+                                        )
+                                    }}
+                                    usage={typeof character.attributes[key].usage === 'number' ? character.attributes[key].usage : 0}
+
                                 />
                             );
                         }

@@ -6,10 +6,15 @@ export const changeDerived = (attributeList: { [key: string]: Attribute }, skill
     const derivedAttributes = attributeNames.filter((attributeName) => attributeList[attributeName].computed);
     derivedAttributes.forEach((attributeName) => {
         const attribute = attributeList[attributeName];
-        const { formula, dependents } = attribute;
+        const { formula, dependents, damage } = attribute;
         if (formula && dependents) {
-            const dependentValues = dependents.map((dependentName) => attributeList[dependentName].value);
+            const dependentValues = dependents.map((dependentName) => {
+                return dependentName !== 'usage' ? attributeList[dependentName].value : attribute[dependentName]
+            });
             attribute.value = formula(dependentValues);
+        }
+        if (damage) {
+            attribute.value = Math.max(0, attribute.value - damage);
         }
     });
     const skillNames = Object.keys(skillList);
